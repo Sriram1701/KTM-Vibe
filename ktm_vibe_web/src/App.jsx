@@ -894,7 +894,10 @@ export default function App() {
 
                     {/* Big Orange Action Button */}
                     <button
-                      onClick={() => setActiveTab('navigation')}
+                      onClick={() => {
+                        setActiveTab('navigation');
+                        handleLaunchGoogleMaps(navDestination);
+                      }}
                       className="ktm-angle-button"
                       style={{
                         width: '100%',

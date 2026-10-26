@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../providers/app_state.dart';
 import '../theme/ktm_theme.dart';
 
@@ -201,23 +202,37 @@ class DashboardScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               height: 52,
-              child: ElevatedButton(
-                onPressed: () => onNavigateToTab(1), // Nav tab
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: KtmTheme.orange,
-                  elevation: 6,
-                  shadowColor: const Color(0x99FF6600),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text(
+              child: ElevatedButton.icon(
+                onPressed: () async {
+                  onNavigateToTab(1); // switch to nav tab
+                  final navUri = Uri.parse('google.navigation:q=OMR+Service+Rd,+Chennai&mode=d');
+                  final webUri = Uri.parse('https://www.google.com/maps/dir/?api=1&destination=OMR+Service+Rd,+Chennai&travelmode=two_wheeler');
+                  try {
+                    if (await canLaunchUrl(navUri)) {
+                      await launchUrl(navUri, mode: LaunchMode.externalApplication);
+                    } else {
+                      await launchUrl(webUri, mode: LaunchMode.externalApplication);
+                    }
+                  } catch (_) {
+                    await launchUrl(webUri, mode: LaunchMode.externalApplication);
+                  }
+                },
+                icon: const Icon(Icons.navigation, color: Colors.white, size: 20),
+                label: const Text(
                   'Start Navigation',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
                     letterSpacing: 0.8,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: KtmTheme.orange,
+                  elevation: 6,
+                  shadowColor: const Color(0x99FF6600),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),

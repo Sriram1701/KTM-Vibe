@@ -70,6 +70,7 @@ export default function App() {
 
   // Add Bike Modal State
   const [showAddBikeModal, setShowAddBikeModal] = useState(false);
+  const [showQrModal, setShowQrModal] = useState(false);
   const [newBikeModel, setNewBikeModel] = useState('Duke 390');
   const [newBikeYear, setNewBikeYear] = useState('2025');
   const [newBikeNickname, setNewBikeNickname] = useState('Beast Mode');
@@ -186,8 +187,29 @@ export default function App() {
           ))}
         </div>
 
-        {/* View mode toggle: Phone simulator vs Fullscreen web app */}
+        {/* View mode toggle: Phone simulator vs Fullscreen web app & QR Code */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <button
+            onClick={() => setShowQrModal(true)}
+            style={{
+              background: '#FF6600',
+              border: 'none',
+              color: '#FFF',
+              borderRadius: '6px',
+              padding: '6px 14px',
+              fontSize: '11px',
+              fontWeight: '800',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              boxShadow: '0 0 12px rgba(255,102,0,0.4)'
+            }}
+          >
+            <Smartphone size={14} />
+            <span>Open on Your Phone (QR Code)</span>
+          </button>
+
           <button
             onClick={() => setViewMode(viewMode === 'phone' ? 'fullscreen' : 'phone')}
             style={{
@@ -1499,6 +1521,104 @@ export default function App() {
               Add Machine to Garage
             </button>
           </form>
+        </div>
+      {/* Open on Phone QR Code Modal */}
+      {showQrModal && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(0,0,0,0.85)',
+          backdropFilter: 'blur(10px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 3000,
+          padding: '16px'
+        }}>
+          <div style={{
+            background: '#14161C',
+            border: '2px solid #FF6600',
+            borderRadius: '24px',
+            padding: '28px',
+            width: '100%',
+            maxWidth: '420px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.9), 0 0 30px rgba(255,102,0,0.3)'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Smartphone size={20} color="#FF6600" />
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', color: '#FFF', margin: 0 }}>
+                  Open Live on Your Phone
+                </h3>
+              </div>
+              <X size={20} color="#888" style={{ cursor: 'pointer' }} onClick={() => setShowQrModal(false)} />
+            </div>
+
+            <p style={{ fontSize: '12px', color: '#AAA', marginBottom: '16px', lineHeight: '1.5' }}>
+              Scan this QR code with your phone camera, or open this URL directly in Chrome / Safari on your phone:
+            </p>
+
+            {/* QR Code Container */}
+            <div style={{
+              background: '#FFFFFF',
+              padding: '14px',
+              borderRadius: '16px',
+              marginBottom: '16px',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
+            }}>
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://10.206.121.190:5173"
+                alt="Scan to Open on Phone"
+                style={{ width: '180px', height: '180px', display: 'block' }}
+              />
+            </div>
+
+            {/* Direct URL Box */}
+            <div style={{
+              background: '#090A0D',
+              border: '1px solid #333',
+              borderRadius: '10px',
+              padding: '10px 16px',
+              fontSize: '14px',
+              fontWeight: '800',
+              color: '#00E676',
+              fontFamily: 'var(--font-racing)',
+              letterSpacing: '0.8px',
+              marginBottom: '14px',
+              width: '100%',
+              userSelect: 'all'
+            }}>
+              http://10.206.121.190:5173
+            </div>
+
+            <div style={{ textAlign: 'left', fontSize: '11px', color: '#8E95A5', lineHeight: '1.6', background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '10px', width: '100%' }}>
+              <div><strong>1.</strong> உங்கள் போனும் லேப்டாப்பும் ஒரே Wi-Fi / Hotspot-ல் இருக்க வேண்டும்.</div>
+              <div><strong>2.</strong> போன் கேமராவால் QR code-ஐ scan செய்யலாம் அல்லது மேலே உள்ள URL-ஐ பிரவுசரில் தட்டச்சு செய்யலாம்.</div>
+              <div><strong>3.</strong> முழு ஆப்பும் உங்கள் போனில் திறக்கும்! Chrome-ல் <strong>"Add to Home screen"</strong> கொடுத்தால் ரியல் ஆப் போல ஐகான் வந்துவிடும்!</div>
+            </div>
+
+            <button
+              onClick={() => setShowQrModal(false)}
+              className="ktm-angle-button"
+              style={{
+                marginTop: '16px',
+                width: '100%',
+                padding: '12px',
+                background: '#FF6600',
+                border: 'none',
+                color: '#FFF',
+                fontWeight: '900',
+                fontSize: '12px',
+                cursor: 'pointer'
+              }}
+            >
+              CLOSE
+            </button>
+          </div>
         </div>
       )}
     </div>

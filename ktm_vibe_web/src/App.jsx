@@ -198,6 +198,27 @@ export default function App() {
 
         {/* View mode toggle: Phone simulator vs Fullscreen web app & QR Code */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <a
+            href="./ktm-vibe-release.apk"
+            download="ktm-vibe-release.apk"
+            style={{
+              background: '#14161C',
+              border: '1px solid #00E676',
+              color: '#00E676',
+              borderRadius: '6px',
+              padding: '6px 12px',
+              fontSize: '11px',
+              fontWeight: '800',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              boxShadow: '0 0 10px rgba(0,230,118,0.2)'
+            }}
+          >
+            <span>⬇️ Download APK</span>
+          </a>
+
           <button
             onClick={() => setShowQrModal(true)}
             style={{
@@ -1738,14 +1759,38 @@ export default function App() {
               <div><strong>3.</strong> முழு ஆப்பும் உங்கள் போனில் திறக்கும்! Chrome-ல் <strong>"Add to Home screen"</strong> கொடுத்தால் ரியல் ஆப் போல ஐகான் வந்துவிடும்!</div>
             </div>
 
+            {/* Direct APK Download Button */}
+            <a
+              href="./ktm-vibe-release.apk"
+              download="ktm-vibe-release.apk"
+              style={{
+                marginTop: '12px',
+                width: '100%',
+                padding: '12px',
+                background: '#00E676',
+                color: '#000',
+                borderRadius: '8px',
+                fontWeight: '900',
+                fontSize: '12px',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 16px rgba(0,230,118,0.3)'
+              }}
+            >
+              <span>⬇️ Download Android APK (48.9 MB)</span>
+            </a>
+
             <button
               onClick={() => setShowQrModal(false)}
               className="ktm-angle-button"
               style={{
-                marginTop: '16px',
+                marginTop: '10px',
                 width: '100%',
                 padding: '12px',
-                background: '#FF6600',
+                background: '#2A2E38',
                 border: 'none',
                 color: '#FFF',
                 fontWeight: '900',

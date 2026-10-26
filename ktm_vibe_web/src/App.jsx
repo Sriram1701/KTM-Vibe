@@ -542,28 +542,6 @@ export default function App() {
                   Choose your KTM bike details
                 </div>
 
-                {/* Brand tabs */}
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-                  {['KTM', 'Husqvarna', 'GASGAS'].map(brand => (
-                    <button
-                      key={brand}
-                      onClick={() => setSelectedBrand(brand)}
-                      style={{
-                        flex: 1,
-                        padding: '10px',
-                        borderRadius: '8px',
-                        border: selectedBrand === brand ? '1px solid #FF6600' : '1px solid rgba(255,255,255,0.08)',
-                        background: selectedBrand === brand ? '#FF6600' : '#14161C',
-                        color: selectedBrand === brand ? '#FFF' : '#8E95A5',
-                        fontWeight: '800',
-                        fontSize: '11px',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {brand}
-                    </button>
-                  ))}
-                </div>
 
                 {/* 2x2 Model selection grid */}
                 <div style={{ fontSize: '11px', fontWeight: '700', color: '#888', marginBottom: '8px' }}>

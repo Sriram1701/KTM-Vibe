@@ -163,12 +163,6 @@ export default function PosterOverview({ onSelectScreen }) {
             <div style={{ fontSize: '10px', fontWeight: '800', color: '#FFF' }}>Select Your Bike</div>
             <div style={{ fontSize: '7px', color: '#888', marginBottom: '6px' }}>Choose your KTM bike details</div>
 
-            {/* Brand tabs */}
-            <div style={{ display: 'flex', gap: '3px', marginBottom: '8px' }}>
-              <span style={{ fontSize: '7px', background: '#FF6600', color: '#FFF', padding: '2px 5px', borderRadius: '4px', fontWeight: '700' }}>KTM</span>
-              <span style={{ fontSize: '7px', background: '#1A1D24', color: '#888', padding: '2px 5px', borderRadius: '4px' }}>Husqvarna</span>
-              <span style={{ fontSize: '7px', background: '#1A1D24', color: '#888', padding: '2px 5px', borderRadius: '4px' }}>GASGAS</span>
-            </div>
 
             {/* 2x2 Model grid */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', marginBottom: '6px' }}>

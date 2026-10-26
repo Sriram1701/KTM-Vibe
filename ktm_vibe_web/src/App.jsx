@@ -60,6 +60,8 @@ export default function App() {
 
   // Navigation State
   const [isTftClusterMode, setIsTftClusterMode] = useState(false);
+  const [navDestination, setNavDestination] = useState('OMR Service Rd, Chennai');
+  const [isRelayActive, setIsRelayActive] = useState(true);
   const [navManeuvers, setNavManeuvers] = useState([
     { dist: '2.0 km', distMeters: 2000, instruction: 'Turn right', road: 'OMR Service Rd', eta: '12 min • 5.8 km • 10:22 AM', speed: 48, gear: 4 },
     { dist: '500 m', distMeters: 500, instruction: 'Keep left at the fork', road: 'Thoraipakkam Radial Rd', eta: '8 min • 3.2 km • 10:26 AM', speed: 64, gear: 5 },
@@ -67,6 +69,12 @@ export default function App() {
     { dist: 'Arrived', distMeters: 0, instruction: 'You have reached your destination', road: 'KTM Experience Center', eta: 'Arrived • 0 min', speed: 0, gear: 1 }
   ]);
   const [maneuverIndex, setManeuverIndex] = useState(0);
+
+  const handleLaunchGoogleMaps = (dest) => {
+    const target = dest || navDestination || 'OMR Service Rd, Chennai';
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(target)}&travelmode=driving`;
+    window.open(mapsUrl, '_blank');
+  };
 
   // Add Bike Modal State
   const [showAddBikeModal, setShowAddBikeModal] = useState(false);
@@ -888,89 +896,203 @@ export default function App() {
 
                     {/* Mode 1: Google Maps Navigation Screen */}
                     {!isTftClusterMode ? (
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                        {/* Search bar */}
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '16px', overflowY: 'auto', gap: '14px' }}>
+                        {/* Search & Destination Input */}
                         <div style={{
-                          padding: '8px 12px',
                           background: '#14161C',
+                          borderRadius: '12px',
+                          border: '1px solid rgba(255,255,255,0.08)',
+                          padding: '6px 12px',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '8px',
-                          borderBottom: '1px solid rgba(255,255,255,0.06)'
+                          gap: '10px'
                         }}>
-                          <Search size={16} color="#888" />
-                          <span style={{ fontSize: '12px', color: '#777', flex: 1 }}>Search destination (e.g. OMR Service Rd)</span>
-                          <Mic size={16} color="#888" />
+                          <Search size={16} color="#FF6600" />
+                          <input
+                            type="text"
+                            value={navDestination}
+                            onChange={(e) => setNavDestination(e.target.value)}
+                            placeholder="Search destination (e.g. OMR Service Rd)"
+                            style={{
+                              flex: 1,
+                              background: 'transparent',
+                              border: 'none',
+                              color: '#FFF',
+                              fontSize: '12px',
+                              outline: 'none',
+                              fontFamily: 'inherit'
+                            }}
+                          />
+                          <Mic size={16} color="#888" style={{ cursor: 'pointer' }} />
                         </div>
 
-                        {/* Dark Mode Map Canvas */}
-                        <div style={{ flex: 1, background: '#131720', position: 'relative', overflow: 'hidden' }}>
-                          {/* Map Roads lines */}
-                          <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0 }}>
-                            <path d="M 0 100 L 400 100" stroke="rgba(255,255,255,0.04)" strokeWidth="18" />
-                            <path d="M 120 0 L 120 400" stroke="rgba(255,255,255,0.04)" strokeWidth="22" />
-                            {/* Blue route polyline */}
-                            <path d="M 120 280 L 120 180 Q 120 100 200 100 L 320 100" fill="none" stroke="#4285F4" strokeWidth="8" strokeLinecap="round" />
-                            {/* Rider puck */}
-                            <circle cx="120" cy="280" r="10" fill="#FF6600" stroke="#FFF" strokeWidth="3" />
-                            <circle cx="320" cy="100" r="8" fill="#FF3B30" stroke="#FFF" strokeWidth="2" />
+                        {/* Quick Destination Chips */}
+                        <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '2px' }}>
+                          {[
+                            'OMR Service Rd, Chennai',
+                            'ECR Beach Highway',
+                            'KTM Service Centre, Guindy',
+                            'Home'
+                          ].map((place) => (
+                            <button
+                              key={place}
+                              onClick={() => {
+                                setNavDestination(place);
+                                handleLaunchGoogleMaps(place);
+                              }}
+                              style={{
+                                whiteSpace: 'nowrap',
+                                background: navDestination === place ? 'rgba(255,102,0,0.18)' : '#14161C',
+                                border: navDestination === place ? '1px solid #FF6600' : '1px solid rgba(255,255,255,0.06)',
+                                color: navDestination === place ? '#FF6600' : '#AAA',
+                                padding: '5px 10px',
+                                borderRadius: '16px',
+                                fontSize: '10px',
+                                fontWeight: '600',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              📍 {place.split(',')[0]}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Launch Real Google Maps Button */}
+                        <button
+                          onClick={() => handleLaunchGoogleMaps(navDestination)}
+                          className="ktm-angle-button"
+                          style={{
+                            background: 'linear-gradient(135deg, #FF6600 0%, #FF3D00 100%)',
+                            color: '#FFF',
+                            border: 'none',
+                            padding: '14px',
+                            borderRadius: '12px',
+                            fontWeight: '900',
+                            fontSize: '13px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '10px',
+                            boxShadow: '0 8px 24px rgba(255,102,0,0.35)'
+                          }}
+                        >
+                          <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="#FFF" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                           </svg>
+                          <span>Start Real Google Maps Navigation</span>
+                        </button>
 
-                          <div style={{ position: 'absolute', bottom: '8px', left: '12px', fontSize: '11px', color: '#555', fontWeight: '800' }}>
-                            Google
-                          </div>
-                        </div>
-
-                        {/* Bottom Turn-by-Turn Card */}
+                        {/* KTM Bluetooth TFT Relay Hub */}
                         <div style={{
-                          background: '#101217',
-                          borderTop: '2px solid #FF6600',
-                          padding: '16px',
+                          background: '#12141A',
+                          border: '1px solid rgba(255,102,0,0.3)',
+                          borderRadius: '16px',
+                          padding: '14px',
                           display: 'flex',
                           flexDirection: 'column',
-                          gap: '6px'
+                          gap: '10px'
                         }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00E676', boxShadow: '0 0 8px #00E676' }} />
+                              <span style={{ fontSize: '11px', fontWeight: '800', color: '#00E676', textTransform: 'uppercase' }}>
+                                Google Maps Notification Relay
+                              </span>
+                            </div>
+                            <span style={{ fontSize: '9px', background: '#1A1D24', color: '#888', padding: '2px 6px', borderRadius: '4px' }}>
+                              BLE 0x1800 Active
+                            </span>
+                          </div>
+
+                          <div style={{ fontSize: '10px', color: '#8E95A5', lineHeight: '1.4' }}>
+                            Android Background Service automatically reads Google Maps navigation notifications and broadcasts turn arrows and distance directly to your <strong>{activeBike.model}</strong> instrument cluster.
+                          </div>
+
+                          {/* Active Intercepted Turn Card */}
+                          <div style={{
+                            background: '#090A0D',
+                            border: '1px solid rgba(255,255,255,0.08)',
+                            borderRadius: '12px',
+                            padding: '12px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px'
+                          }}>
                             <div style={{
-                              width: '44px',
-                              height: '44px',
+                              width: '42px',
+                              height: '42px',
                               borderRadius: '50%',
                               background: '#4285F4',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
-                              boxShadow: '0 0 12px rgba(66,133,244,0.5)'
+                              boxShadow: '0 0 14px rgba(66,133,244,0.4)'
                             }}>
-                              <CornerUpRight size={24} color="#FFF" />
+                              <CornerUpRight size={22} color="#FFF" />
                             </div>
                             <div style={{ flex: 1 }}>
-                              <div style={{ fontSize: '15px', fontWeight: '800', color: '#FFF' }}>
+                              <div style={{ fontSize: '14px', fontWeight: '800', color: '#FFF' }}>
                                 {currentNav.instruction}
                               </div>
-                              <div style={{ fontSize: '13px', color: '#00E676', fontWeight: '700' }}>
-                                {currentNav.dist} • {currentNav.road}
+                              <div style={{ fontSize: '12px', color: '#00E676', fontWeight: '700' }}>
+                                In {currentNav.dist} • {currentNav.road}
+                              </div>
+                              <div style={{ fontSize: '9px', color: '#666', marginTop: '2px' }}>
+                                Intercepted from Google Maps • Transmitted via BLE
                               </div>
                             </div>
-                            <button
-                              onClick={handleNextManeuver}
-                              style={{
-                                background: '#1A1D24',
-                                border: '1px solid #FF6600',
-                                color: '#FF8533',
-                                padding: '6px 10px',
-                                borderRadius: '6px',
-                                fontSize: '10px',
-                                fontWeight: '700',
-                                cursor: 'pointer'
-                              }}
-                            >
-                              Next Turn &gt;
-                            </button>
                           </div>
 
-                          <div style={{ fontSize: '11px', color: '#888', marginTop: '4px' }}>
-                            {currentNav.eta}
+                          {/* Test Notification Simulator */}
+                          <div>
+                            <div style={{ fontSize: '10px', fontWeight: '700', color: '#888', marginBottom: '6px' }}>
+                              Simulate Google Maps Turn Notifications:
+                            </div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+                              {navManeuvers.map((item, idx) => (
+                                <button
+                                  key={idx}
+                                  onClick={() => setManeuverIndex(idx)}
+                                  style={{
+                                    background: maneuverIndex === idx ? 'rgba(255,102,0,0.2)' : '#181A22',
+                                    border: maneuverIndex === idx ? '1px solid #FF6600' : '1px solid rgba(255,255,255,0.06)',
+                                    color: maneuverIndex === idx ? '#FF6600' : '#888',
+                                    padding: '6px 8px',
+                                    borderRadius: '8px',
+                                    fontSize: '10px',
+                                    fontWeight: '600',
+                                    textAlign: 'left',
+                                    cursor: 'pointer'
+                                  }}
+                                >
+                                  {item.dist}: {item.instruction.split(' ')[0]} {item.instruction.split(' ')[1] || ''}
+                                </button>
+                              ))}
+                            </div>
                           </div>
+
+                          {/* Quick Mirror Switch Button */}
+                          <button
+                            onClick={() => setIsTftClusterMode(true)}
+                            style={{
+                              background: '#181A22',
+                              border: '1px solid #333',
+                              color: '#FFF',
+                              padding: '10px',
+                              borderRadius: '8px',
+                              fontSize: '11px',
+                              fontWeight: '700',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              gap: '6px',
+                              marginTop: '4px'
+                            }}
+                          >
+                            <span>🏍️ Check Bike Speedometer Display Mirror &rarr;</span>
+                          </button>
                         </div>
                       </div>
                     ) : (

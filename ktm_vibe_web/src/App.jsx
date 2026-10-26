@@ -53,6 +53,7 @@ export default function App() {
   const [selectedBrand, setSelectedBrand] = useState('KTM');
   const [selectedModel, setSelectedModel] = useState('Duke 160');
   const [selectedYear, setSelectedYear] = useState('2025');
+  const [selectedNickname, setSelectedNickname] = useState('Orange Beast');
 
   // Bluetooth State
   const [isBtConnected, setIsBtConnected] = useState(true);
@@ -606,12 +607,46 @@ export default function App() {
                   ))}
                 </div>
 
+                {/* Bike Nickname Input */}
+                <div style={{ fontSize: '11px', fontWeight: '700', color: '#888', marginBottom: '8px' }}>
+                  Bike Nickname
+                </div>
+                <div style={{
+                  background: '#14161C',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  padding: '8px 12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '16px'
+                }}>
+                  <span style={{ fontSize: '14px' }}>🏍️</span>
+                  <input
+                    type="text"
+                    value={selectedNickname}
+                    onChange={(e) => setSelectedNickname(e.target.value)}
+                    placeholder="e.g. Orange Beast / Track Monster"
+                    style={{
+                      flex: 1,
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#FFF',
+                      fontSize: '12px',
+                      fontWeight: '700',
+                      outline: 'none',
+                      fontFamily: 'inherit'
+                    }}
+                  />
+                </div>
+
                 <button
                   onClick={() => {
                     setActiveBike(prev => ({
                       ...prev,
                       model: selectedModel,
-                      fullName: `${selectedBrand} ${selectedModel}`,
+                      fullName: `KTM ${selectedModel}`,
+                      nickname: selectedNickname || 'My Duke',
                       year: selectedYear
                     }));
                     setCurrentFlow('bluetoothSetup');

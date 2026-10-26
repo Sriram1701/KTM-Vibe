@@ -312,6 +312,19 @@ class SelectBikeScreen extends StatefulWidget {
 class _SelectBikeScreenState extends State<SelectBikeScreen> {
   String _selectedModel = 'Duke 160';
   final String _selectedYear = '2025';
+  late final TextEditingController _nicknameController;
+
+  @override
+  void initState() {
+    super.initState();
+    _nicknameController = TextEditingController(text: 'Orange Beast');
+  }
+
+  @override
+  void dispose() {
+    _nicknameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -326,7 +339,7 @@ class _SelectBikeScreenState extends State<SelectBikeScreen> {
               'Choose your KTM bike details',
               style: TextStyle(fontSize: 12, color: KtmTheme.textSecondary),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
 
             Expanded(
               child: GridView.count(
@@ -363,6 +376,26 @@ class _SelectBikeScreenState extends State<SelectBikeScreen> {
                 }).toList(),
               ),
             ),
+            const SizedBox(height: 12),
+
+            const Text(
+              'BIKE NICKNAME',
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: KtmTheme.textSecondary),
+            ),
+            const SizedBox(height: 6),
+            TextField(
+              controller: _nicknameController,
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+              decoration: InputDecoration(
+                hintText: 'e.g. My Duke / Orange Beast',
+                prefixIcon: const Icon(Icons.badge_outlined, color: KtmTheme.orange, size: 20),
+                filled: true,
+                fillColor: KtmTheme.card,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: KtmTheme.orange, width: 1.5)),
+              ),
+            ),
+            const SizedBox(height: 16),
 
             SizedBox(
               width: double.infinity,
@@ -370,12 +403,13 @@ class _SelectBikeScreenState extends State<SelectBikeScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   final state = context.read<AppStateProvider>();
+                  final nick = _nicknameController.text.trim();
                   state.setActiveBike(
                     BikeProfile(
                       id: 'bike-user',
                       model: 'KTM $_selectedModel',
                       year: _selectedYear,
-                      nickname: 'My $_selectedModel',
+                      nickname: nick.isEmpty ? 'My $_selectedModel' : nick,
                       odometer: 14280,
                       fuelLevel: 80,
                       batteryVoltage: 12.8,

@@ -90,16 +90,16 @@ class SettingsScreen extends StatelessWidget {
   Widget _tile(IconData icon, String title, String subtitle, VoidCallback? onTap) {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
-      decoration: BoxDecoration(
+      child: Material(
         color: KtmTheme.card,
         borderRadius: BorderRadius.circular(10),
-      ),
-      child: ListTile(
-        leading: Icon(icon, color: KtmTheme.orange, size: 20),
-        title: Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white)),
-        subtitle: Text(subtitle, style: const TextStyle(fontSize: 11, color: KtmTheme.textSecondary)),
-        trailing: const Icon(Icons.chevron_right, color: Colors.white30, size: 18),
-        onTap: onTap,
+        child: ListTile(
+          leading: Icon(icon, color: KtmTheme.orange, size: 20),
+          title: Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white)),
+          subtitle: Text(subtitle, style: const TextStyle(fontSize: 11, color: KtmTheme.textSecondary)),
+          trailing: const Icon(Icons.chevron_right, color: Colors.white30, size: 18),
+          onTap: onTap,
+        ),
       ),
     );
   }

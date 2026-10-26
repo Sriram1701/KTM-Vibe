@@ -3,7 +3,7 @@ import '../theme/ktm_theme.dart';
 import 'dashboard_screen.dart';
 import 'navigation_screen.dart';
 import 'garage_screen.dart';
-import 'bluetooth_screen.dart';
+import 'settings_screen.dart';
 import 'utilities_screen.dart';
 
 class MainShell extends StatefulWidget {
@@ -28,7 +28,7 @@ class _MainShellState extends State<MainShell> {
       DashboardScreen(onNavigateToTab: _onTabSelected),
       const NavigationScreen(),
       const GarageScreen(),
-      const BluetoothScreen(),
+      const SettingsScreen(),
       const UtilitiesScreen(),
     ];
 
@@ -39,7 +39,7 @@ class _MainShellState extends State<MainShell> {
       ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
-          color: Color(0xFF0A0B0E),
+          color: Color(0xFF090A0D),
           border: Border(top: BorderSide(color: Colors.white10, width: 1)),
         ),
         child: BottomNavigationBar(
@@ -47,30 +47,32 @@ class _MainShellState extends State<MainShell> {
           onTap: _onTabSelected,
           backgroundColor: Colors.transparent,
           selectedItemColor: KtmTheme.orange,
-          unselectedItemColor: KtmTheme.textMuted,
+          unselectedItemColor: Colors.white38,
           type: BottomNavigationBarType.fixed,
           selectedFontSize: 11,
-          unselectedFontSize: 10,
+          unselectedFontSize: 11,
+          selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w800),
+          unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600),
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.speed),
-              label: 'Dashboard',
+              icon: Icon(Icons.two_wheeler),
+              label: 'My Bikes',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.navigation),
               label: 'Navigation',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.two_wheeler),
+              icon: Icon(Icons.garage),
               label: 'Garage',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.bluetooth),
-              label: 'Bluetooth',
+              icon: Icon(Icons.settings),
+              label: 'Settings',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.menu),
-              label: 'Utilities',
+              icon: Icon(Icons.help_outline),
+              label: 'Help',
             ),
           ],
         ),

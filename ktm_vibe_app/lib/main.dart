@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/app_state.dart';
-import 'screens/main_shell.dart';
+import 'screens/onboarding_flow_screens.dart';
 import 'theme/ktm_theme.dart';
 
 void main() {
@@ -25,7 +25,7 @@ class KtmVibeApp extends StatelessWidget {
       title: 'KTM Vibe',
       debugShowCheckedModeBanner: false,
       theme: KtmTheme.darkTheme,
-      home: const MainShell(),
+      home: const SplashScreen(),
     );
   }
 }
